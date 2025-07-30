@@ -1,0 +1,264 @@
+{% extends 'gova_pp/base.html' %}
+{% load static %}
+
+{% block title %}Smart Mkulima Government Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-card {
+        background: linear-gradient(135deg, #395144 0%, #4E6C50 100%);
+        border-radius: 12px;
+        padding: 1.5rem;
+        color: white;
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.875rem;
+        opacity: 0.9;
+    }
+    
+    .message-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        border-left: 4px solid #395144;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 1rem;
+    }
+    
+    .priority-urgent { border-left-color: #dc2626; }
+    .priority-high { border-left-color: #ea580c; }
+    .priority-medium { border-left-color: #f59e0b; }
+    .priority-low { border-left-color: #22c55e; }
+    
+    .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+    
+    .status-new { background-color: #dbeafe; color: #1e40af; }
+    .status-in_progress { background-color: #fef3c7; color: #92400e; }
+    .status-replied { background-color: #d1fae5; color: #065f46; }
+    .status-resolved { background-color: #e5e7eb; color: #374151; }
+    
+    .analysis-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-1 text-success">
+                        <i class="fas fa-leaf me-2"></i>
+                        Smart Mkulima Dashboard
+                    </h1>
+                    <p class="text-muted mb-0">Government Agricultural Support & Communication Platform</p>
+                    <small class="text-muted">Welcome back, {{ user.firstName|default:user.username }}! Manage farmer communications and provide agricultural support.</small>
+                </div>
+                <div class="text-end">
+                    <div class="badge bg-success fs-6 p-2">
+                        <i class="fas fa-users me-1"></i>
+                        {{ total_messages }} Total Messages
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="stat-card text-center">
+                <div class="stat-number">{{ total_messages }}</div>
+                <div class="stat-label"><i class="fas fa-envelope me-1"></i>Total Messages</div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="stat-card text-center">
+                <div class="stat-number">{{ new_messages }}</div>
+                <div class="stat-label"><i class="fas fa-bell me-1"></i>New Messages</div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="stat-card text-center">
+                <div class="stat-number">{{ in_progress_messages }}</div>
+                <div class="stat-label"><i class="fas fa-clock me-1"></i>In Progress</div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="stat-card text-center">
+                <div class="stat-number">{{ urgent_messages }}</div>
+                <div class="stat-label"><i class="fas fa-exclamation-triangle me-1"></i>Urgent</div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="stat-card text-center">
+                <div class="stat-number">{{ image_requests }}</div>
+                <div class="stat-label"><i class="fas fa-camera me-1"></i>Image Analysis</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Sections -->
+    <div class="row">
+        <!-- Recent Messages -->
+        <div class="col-lg-8 mb-4">
+            <div class="card card-gov">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-envelope me-2 text-success"></i>
+                        Recent Messages from Farmers
+                    </h5>
+                </div>
+                <div class="card-body">
+                        {% for message in recent_messages %}
+                        <div class="message-card priority-{{ message.priority }}">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">{{ message.farmer_name }}</h3>
+                                    <p class="text-sm text-gray-600">{{ message.subject }}</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    {% if message.has_image %}
+                                    <i class="fas fa-image text-blue-500" title="Has Image"></i>
+                                    {% endif %}
+                                    <span class="status-badge status-{{ message.status }}">{{ message.get_status_display }}</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-700 mb-2">{{ message.message|truncatewords:20 }}</p>
+                            <div class="flex justify-between items-center text-xs text-gray-500">
+                                <span>{{ message.created_at|timesince }} ago</span>
+                                <a href="{% url 'gova_pp:message_detail' message.id %}" class="text-primary hover:text-primary-dark">
+                                    View Details →
+                                </a>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-gray-500 text-center py-8">No messages yet</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- My Assigned Messages -->
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="px-6 py-4 border-b">
+                        <h3 class="text-lg font-semibold text-gray-900">My Assigned Messages</h3>
+                    </div>
+                    <div class="p-6">
+                        {% for message in my_messages %}
+                        <div class="mb-4 last:mb-0">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="font-medium text-gray-900">{{ message.farmer_name }}</p>
+                                    <p class="text-sm text-gray-600">{{ message.subject|truncatewords:5 }}</p>
+                                </div>
+                                <span class="status-badge status-{{ message.status }}">{{ message.get_status_display }}</span>
+                            </div>
+                            <div class="mt-2">
+                                <a href="{% url 'gova_pp:message_detail' message.id %}" class="text-sm text-primary hover:text-primary-dark">
+                                    View →
+                                </a>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-gray-500 text-center py-4">No assigned messages</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Recent Image Analyses -->
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="px-6 py-4 border-b">
+                        <h3 class="text-lg font-semibold text-gray-900">Recent Image Analyses</h3>
+                    </div>
+                    <div class="p-6">
+                        {% for analysis in recent_analyses %}
+                        <div class="analysis-card">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="font-medium text-gray-900">{{ analysis.message.farmer_name }}</p>
+                                    <p class="text-sm text-gray-600">{{ analysis.get_primary_category_display }}</p>
+                                </div>
+                                <span class="text-xs text-gray-500">{{ analysis.analyzed_at|timesince }} ago</span>
+                            </div>
+                            <p class="text-sm text-gray-700 mb-2">{{ analysis.analysis_text|truncatewords:15 }}</p>
+                            <a href="{% url 'gova_pp:message_detail' analysis.message.id %}" class="text-sm text-primary hover:text-primary-dark">
+                                View Analysis →
+                            </a>
+                        </div>
+                        {% empty %}
+                        <p class="text-gray-500 text-center py-4">No analyses yet</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-sm border">
+                    <div class="px-6 py-4 border-b">
+                        <h3 class="text-lg font-semibold text-gray-900">Quick Actions</h3>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <a href="{% url 'gova_pp:messages_list' %}?status=new" class="block w-full bg-blue-50 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-100 transition">
+                            <i class="fas fa-inbox mr-2"></i>View New Messages
+                        </a>
+                        <a href="{% url 'gova_pp:messages_list' %}?priority=urgent" class="block w-full bg-red-50 text-red-700 px-4 py-2 rounded-lg hover:bg-red-100 transition">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Urgent Messages
+                        </a>
+                        <a href="{% url 'gova_pp:messages_list' %}?message_type=image_analysis" class="block w-full bg-green-50 text-green-700 px-4 py-2 rounded-lg hover:bg-green-100 transition">
+                            <i class="fas fa-camera mr-2"></i>Image Analysis Requests
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-refresh dashboard every 30 seconds
+setInterval(function() {
+    // Only refresh if user is active (not typing or interacting)
+    if (document.hasFocus()) {
+        location.reload();
+    }
+}, 30000);
+
+// Add notification sound for new urgent messages
+function checkForUrgentMessages() {
+    // This could be enhanced with WebSocket for real-time updates
+    console.log('Checking for urgent messages...');
+}
+
+// Initialize dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('GOVA PP Dashboard loaded');
+});
+</script>
+{% endblock %}
