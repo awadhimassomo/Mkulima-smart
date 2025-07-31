@@ -1,0 +1,7 @@
+├── apps/                               # Feature-based Django apps
+│   ├── __init__.py
+│   │
+│   ├── authentication/                 # Authentication & Authorization
+│   │   ├── apps.py
+│   │   ├── models.py                   # User, Role, Permission models
+│   │   ├── admin.py                    # Admin configuration

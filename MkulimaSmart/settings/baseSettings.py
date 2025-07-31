@@ -25,6 +25,8 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'softdelete',
+    'phonenumber_field',
 ]
 
 THIRD_PARTY_APPS = [
@@ -38,11 +40,11 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'core',
     'shared',
-    # 'apps.authentication',
+    'apps.authentication',
+    'apps.products',
+    'apps.orders',
+    'apps.payments',
     # 'apps.users',
-    # 'apps.products',
-    # 'apps.orders',
-    # 'apps.payments',
     # 'apps.smart_farming',
     # 'apps.waste_management',
     # 'apps.processing',
@@ -53,6 +55,8 @@ LOCAL_APPS = [
     # 'apps.community',
     # 'apps.support',
     # 'apps.settings',
+    # 'gova_pp',
+    'website',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -139,7 +143,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom User Model
-# AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'authentication.User'
 
 # Django REST Framework
 REST_FRAMEWORK = {

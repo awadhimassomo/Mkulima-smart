@@ -1,10 +1,14 @@
+"""
+Payments app configuration
+"""
 from django.apps import AppConfig
 
 
-class WebsiteConfig(AppConfig):
+class PaymentsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'website'
-
+    name = 'apps.payments'
+    verbose_name = 'Payments'
+    
     def ready(self):
         # Import signals when app is ready
         try:

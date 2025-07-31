@@ -8,24 +8,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from website.views import (
-    HomeView, 
-    weather_view, 
-    dashboard_preview, 
-    register_farm, 
-    ContactView
-)
 
 urlpatterns = [
     # Admin site
     path('admin/', admin.site.urls),
     
     # Website URLs
-    path('', HomeView.as_view(), name='home'),
-    path('weather/', weather_view, name='weather'),
-    path('dashboard-preview/', dashboard_preview, name='dashboard_preview'),
-    path('register-farm/', register_farm, name='register_farm'),
-    path('contact/', ContactView.as_view(), name='contact'),
+    path('', include('website.urls')),
+
+    # Website URLs
+    # path('gov/', include('gova_pp.urls')),
     
     # Add more app URLs here
     # path('accounts/', include('accounts.urls')),
