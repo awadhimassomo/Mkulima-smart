@@ -1,0 +1,390 @@
+kikapu_backend/
+├── README.md                              # Project documentation
+├── requirements/                          # Dependencies management
+│   ├── base.txt                          # Base requirements
+│   ├── development.txt                   # Development dependencies
+│   ├── production.txt                    # Production dependencies
+│   └── testing.txt                       # Testing dependencies
+├── .env.example                          # Environment variables template
+├── .gitignore                           # Git ignore rules
+├── .pre-commit-config.yaml              # Pre-commit hooks configuration
+├── docker-compose.yml                   # Docker configuration
+├── Dockerfile                           # Docker image definition
+├── manage.py                            # Django management script
+├── pytest.ini                          # Pytest configuration
+├── setup.cfg                            # Project configuration
+│
+├── MkulimaSmart/                              # Django project configuration
+│   ├── __init__.py
+│   ├── settings/                        # Settings modules
+│   │   ├── __init__.py
+│   │   ├── base.py                      # Base settings
+│   │   ├── development.py               # Development settings
+│   │   ├── production.py                # Production settings
+│   │   └── testing.py                   # Testing settings
+│   ├── urls.py                          # Main URL configuration
+│   ├── wsgi.py                          # WSGI configuration
+│   └── asgi.py                          # ASGI configuration (for WebSockets)
+│
+├── core/                                # Core utilities and shared functionality
+│   ├── __init__.py
+│   ├── constants/                       # Application constants
+│   │   ├── __init__.py
+│   │   ├── status_codes.py             # HTTP status codes
+│   │   ├── error_messages.py           # Error message constants
+│   │   └── business_rules.py           # Business rule constants
+│   ├── exceptions/                      # Custom exception classes
+│   │   ├── __init__.py
+│   │   ├── base.py                     # Base exception classes
+│   │   ├── business.py                 # Business logic exceptions
+│   │   ├── validation.py               # Validation exceptions
+│   │   └── authentication.py           # Authentication exceptions
+│   ├── permissions/                     # Custom permission classes
+│   │   ├── __init__.py
+│   │   ├── base.py                     # Base permission classes
+│   │   ├── role_based.py               # Role-based permissions
+│   │   └── resource_based.py           # Resource-based permissions
+│   ├── mixins/                         # Reusable mixins
+│   │   ├── __init__.py
+│   │   ├── timestamp.py                # Timestamp mixin
+│   │   ├── soft_delete.py              # Soft delete mixin
+│   │   └── audit.py                    # Audit trail mixin
+│   ├── utils/                          # Utility functions
+│   │   ├── __init__.py
+│   │   ├── helpers.py                  # General helper functions
+│   │   ├── validators.py               # Custom validators
+│   │   ├── formatters.py               # Data formatters
+│   │   ├── pagination.py               # Custom pagination classes
+│   │   └── filters.py                  # Custom filter classes
+│   ├── middleware/                     # Custom middleware
+│   │   ├── __init__.py
+│   │   ├── request_logging.py          # Request logging middleware
+│   │   ├── rate_limiting.py            # Rate limiting middleware
+│   │   └── cors.py                     # CORS handling
+│   ├── storage/                        # Storage backends and managers
+│   │   ├── __init__.py
+│   │   ├── backends/                   # Custom storage backends
+│   │   ├── managers/                   # File managers
+│   │   └── utils.py                    # Storage utilities
+│   ├── cache/                          # Caching utilities
+│   │   ├── __init__.py
+│   │   ├── decorators.py               # Cache decorators
+│   │   ├── managers.py                 # Cache managers
+│   │   └── keys.py                     # Cache key generators
+│   ├── security/                       # Security utilities
+│   │   ├── __init__.py
+│   │   ├── encryption.py               # Encryption utilities
+│   │   ├── hashing.py                  # Hashing utilities
+│   │   └── sanitizers.py               # Input sanitizers
+│   ├── celery/                         # Celery configuration
+│   │   ├── __init__.py
+│   │   ├── app.py                      # Celery app configuration
+│   │   ├── tasks/                      # Base task classes
+│   │   └── schedules.py                # Periodic task schedules
+│   └── tests/                          # Core tests
+│       ├── __init__.py
+│       ├── test_utils.py
+│       ├── test_mixins.py
+│       └── test_permissions.py
+│
+├── shared/                             # Shared components across apps
+│   ├── __init__.py
+│   ├── models/                         # Abstract base models
+│   │   ├── __init__.py
+│   │   ├── base.py                     # Base model classes
+│   │   ├── timestamps.py               # Timestamp models
+│   │   └── audit.py                    # Audit models
+│   ├── serializers/                    # Base serializers
+│   │   ├── __init__.py
+│   │   ├── base.py                     # Base serializer classes
+│   │   └── mixins.py                   # Serializer mixins
+│   ├── views/                          # Base view classes
+│   │   ├── __init__.py
+│   │   ├── base.py                     # Base view classes
+│   │   ├── mixins.py                   # View mixins
+│   │   └── generics.py                 # Generic view classes
+│   └── admin/                          # Base admin classes
+│       ├── __init__.py
+│       ├── base.py                     # Base admin classes
+│       └── mixins.py                   # Admin mixins
+│
+├── apps/                               # Feature-based Django apps
+│   ├── __init__.py
+│   │
+│   ├── authentication/                 # Authentication & Authorization
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # User, Role, Permission models
+│   │   ├── serializers.py              # Auth serializers
+│   │   ├── views.py                    # Auth views (login, register, etc.)
+│   │   ├── urls.py                     # Auth URL patterns
+│   │   ├── permissions.py              # Auth-specific permissions
+│   │   ├── backends.py                 # Custom authentication backends
+│   │   ├── tokens.py                   # Token management
+│   │   ├── admin.py                    # Admin configuration
+│   │   ├── migrations/                 # Database migrations
+│   │   └── tests/                      # Authentication tests
+│   │       ├── __init__.py
+│   │       ├── test_models.py
+│   │       ├── test_views.py
+│   │       └── test_serializers.py
+│   │
+│   ├── users/                          # User Profile Management
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # UserProfile, UserPreferences
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── managers.py                 # Custom user managers
+│   │   ├── signals.py                  # User-related signals
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── products/                       # Product Management
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # Product, Category, Inventory
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── managers.py
+│   │   ├── filters.py                  # Product filtering
+│   │   ├── tasks.py                    # Celery tasks (price updates, etc.)
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── orders/                         # Order Management
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # Order, OrderItem, OrderStatus
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── managers.py
+│   │   ├── services.py                 # Order processing logic
+│   │   ├── signals.py                  # Order-related signals
+│   │   ├── tasks.py                    # Order processing tasks
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── payments/                       # Payment Processing
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # Payment, Transaction, PaymentMethod
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py                 # Payment gateway integrations
+│   │   ├── processors/                 # Payment processor classes
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── taka_bank.py           # Taka Bank integration
+│   │   │   └── mobile_money.py        # Mobile money integrations
+│   │   ├── webhooks.py                 # Payment webhooks
+│   │   ├── tasks.py                    # Payment processing tasks
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── smart_farming/                  # Smart Farming Insights
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # WeatherData, CropAdvice, FarmingTips
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py                 # Weather API integrations
+│   │   ├── ml_models/                  # Machine learning models
+│   │   │   ├── __init__.py
+│   │   │   ├── weather_prediction.py
+│   │   │   └── crop_recommendation.py
+│   │   ├── tasks.py                    # Data collection tasks
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── waste_management/               # Waste Management
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # WasteCollection, WasteType, Schedule
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py                 # Waste processing logic
+│   │   ├── tasks.py                    # Waste collection scheduling
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── processing/                     # Manufacturing/Processing
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # ProcessingOrder, Equipment, QualityCheck
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py                 # Processing workflow management
+│   │   ├── tasks.py                    # Processing automation tasks
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── logistics/                      # Logistics & Transportation
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # Shipment, Route, Vehicle, Driver
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py                 # Route optimization, tracking
+│   │   ├── tracking/                   # GPS tracking utilities
+│   │   ├── tasks.py                    # Logistics automation
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── marketplace/                    # Marketplace Features
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # Listing, Bid, MarketPrice
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py                 # Market price calculations
+│   │   ├── matching/                   # Supply-demand matching
+│   │   ├── tasks.py                    # Price updates, matching
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── notifications/                  # Notification System
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # Notification, NotificationTemplate
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py                 # Notification dispatch
+│   │   ├── channels/                   # Notification channels
+│   │   │   ├── __init__.py
+│   │   │   ├── email.py
+│   │   │   ├── sms.py
+│   │   │   ├── push.py
+│   │   │   └── websocket.py
+│   │   ├── tasks.py                    # Notification sending tasks
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── analytics/                      # Analytics & Reporting
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # Analytics, Report, Metric
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py                 # Analytics calculations
+│   │   ├── reports/                    # Report generators
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── sales.py
+│   │   │   ├── farming.py
+│   │   │   └── logistics.py
+│   │   ├── tasks.py                    # Analytics processing
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── community/                      # Community Features
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # Forum, Post, Comment, Group
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── moderation.py               # Content moderation
+│   │   ├── tasks.py                    # Community management tasks
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   ├── support/                        # Customer Support
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py                   # Ticket, SupportAgent, FAQ
+│   │   ├── serializers.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py                 # Ticket management
+│   │   ├── chatbot/                    # AI chatbot integration
+│   │   ├── tasks.py                    # Support automation
+│   │   ├── migrations/
+│   │   └── tests/
+│   │
+│   └── settings/                       # App Settings Management
+│       ├── __init__.py
+│       ├── apps.py
+│       ├── models.py                   # AppSetting, UserSetting
+│       ├── serializers.py
+│       ├── views.py
+│       ├── urls.py
+│       ├── admin.py
+│       ├── managers.py                 # Settings managers
+│       ├── migrations/
+│       └── tests/
+│
+├── api/                                # API versioning and routing
+│   ├── __init__.py
+│   ├── v1/                            # API version 1
+│   │   ├── __init__.py
+│   │   ├── urls.py                    # V1 URL patterns
+│   │   └── routers.py                 # DRF routers for V1
+│   └── v2/                            # Future API version
+│       ├── __init__.py
+│       ├── urls.py
+│       └── routers.py
+│
+├── docs/                              # Documentation
+│   ├── api/                           # API documentation
+│   ├── deployment/                    # Deployment guides
+│   ├── contributing.md                # Contribution guidelines
+│   └── architecture.md                # Architecture documentation
+│
+├── scripts/                           # Management and deployment scripts
+│   ├── __init__.py
+│   ├── deploy.py                      # Deployment script
+│   ├── migrate.py                     # Database migration script
+│   ├── seed_data.py                   # Test data seeding
+│   └── backup.py                      # Database backup script
+│
+├── static/                            # Static files (CSS, JS, images)
+│   ├── admin/                         # Admin static files
+│   ├── api/                          # API documentation static files
+│   └── uploads/                       # User uploaded files
+│
+├── media/                             # User uploaded media files
+│   ├── products/                      # Product images
+│   ├── profiles/                      # User profile images
+│   └── documents/                     # Document uploads
+│
+├── locale/                            # Internationalization files
+│   ├── en/                           # English translations
+│   ├── sw/                           # Swahili translations  
+│   └── fr/                           # French translations
+│
+├── logs/                              # Application logs
+│   ├── django.log                     # Django application logs
+│   ├── celery.log                     # Celery task logs
+│   └── error.log                      # Error logs
+│
+└── tests/                             # Project-wide tests
+    ├── __init__.py
+    ├── integration/                   # Integration tests
+    ├── e2e/                          # End-to-end tests
+    ├── fixtures/                      # Test fixtures
+    └── utils.py                       # Test utilities

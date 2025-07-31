@@ -1,0 +1,11 @@
+-r base.txt
+
+# Development tools
+django-debug-toolbar
+pytest
+pytest-django
+pytest-cov
+factory-boy
+faker
+ipython
+django-silk

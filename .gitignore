@@ -1,0 +1,122 @@
+# Python
+.Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Django specific
+*.pot
+*.pyc
+local_settings.py
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Database
+*.sqlite3
+*.db
+
+# Django migrations
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Virtual environment
+env/
+venv/
+ENV/
+.venv/
+env.bak/
+env_old/
+env.bak/
+venv.bak/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# MyPy, Pylint, Coverage, etc
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.pyre/
+.pytype/
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Test results
+junit*.xml
+coverage.xml
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+*.tar
+*.tgz
+.docker/
+
+
+# Editor swap files
+*.swp
+*.swo
+
+# Static & media root (collected by collectstatic)
+static/
+staticfiles/
+media/
+uploads/
+
+# Gunicorn
+gunicorn.pid
+
+# Local development scripts
+*.sh
+
+# Testing
+.pytest_cache/
+.tox/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Local development
+local_settings.py
+
+# Documentation
+docs/_build/
