@@ -105,7 +105,7 @@ uploads/
 gunicorn.pid
 
 # Local development scripts
-*.sh
+# *.sh
 
 # Testing
 .pytest_cache/
