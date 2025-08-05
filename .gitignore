@@ -14,7 +14,7 @@ build/
 *.pyc
 local_settings.py
 .env
-.env.*
+#.env.*
 
 # Logs
 logs/

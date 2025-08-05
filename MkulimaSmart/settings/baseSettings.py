@@ -234,6 +234,37 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+# Site configuration
+SITE_URL = config('SITE_URL', default='http://localhost:8000')
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
+
+# Taka Bank configuration
+TAKA_BANK_BASE_URL = config('TAKA_BANK_BASE_URL', default='https://sandbox-api.takabank.co.tz')
+TAKA_BANK_API_KEY = config('TAKA_BANK_API_KEY', default='')
+TAKA_BANK_SECRET = config('TAKA_BANK_SECRET', default='')
+TAKA_BANK_MERCHANT_ID = config('TAKA_BANK_MERCHANT_ID', default='')
+
+# API Rate Limiting
+REST_FRAMEWORK.update({
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',
+        'user': '1000/hour',
+        'payment': '10/min',  # Stricter for payment endpoints
+    }
+})
+
+# File Upload Settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+FILE_UPLOAD_PERMISSIONS = 0o644
+
+# Session Settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+SESSION_CACHE_ALIAS = 'default'
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
 # Logging Configuration
 LOGGING = {
     'version': 1,

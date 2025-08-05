@@ -5,6 +5,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from .docs import APIDocumentationView
 
 # Import ViewSets
 from apps.products.views import ProductViewSet, ProductCategoryViewSet
@@ -28,12 +29,24 @@ def api_root(request):
             'payments': '/api/v1/payments/',
             'health': '/health/',
             'admin': '/admin/',
+            'documentation': '/api/v1/docs/',
         },
-        'documentation': '/api/v1/docs/',
+        'status': 'Production Ready',
+        'features': [
+            'JWT Authentication',
+            'Product Management',
+            'Order Processing', 
+            'Payment Integration',
+            'Real-time Notifications',
+            'Advanced Search & Filtering'
+        ]
     })
 
 urlpatterns = [
     path('', api_root, name='api-root'),
+    
+    # Documentation
+    path('docs/', APIDocumentationView.as_view(), name='api-docs'),
     
     # Authentication
     path('auth/', include('apps.authentication.urls')),

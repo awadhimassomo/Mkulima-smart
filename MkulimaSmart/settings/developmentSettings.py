@@ -36,9 +36,6 @@ INTERNAL_IPS = [
 # CORS settings for development
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Email backend for development
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 # Disable HTTPS redirect in development
 SECURE_SSL_REDIRECT = False
 
